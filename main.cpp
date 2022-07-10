@@ -2,8 +2,10 @@
 #include <string>
 #include <random>
 
-std::string generate(int length) {
-    char letters[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+std::string generate(int length, bool num) {
+    char letters[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    char lettersnum[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+
     std::string pas;
 
     int total;
@@ -18,7 +20,14 @@ std::string generate(int length) {
 
         total = distr(generator);
 
-        char x = letters[total % 62];
+        char x;
+
+        if (num == true) {
+            x = lettersnum[total % 62];
+        }
+        else if (num == false) {
+            x = letters[total % 52];
+        }
 
         pas += x;
     }
@@ -29,11 +38,28 @@ std::string generate(int length) {
 int main()
 {
     int length;
+    bool num = true;
+    std::string n = "z";
 
-    std::cout << "How long? ";
+    std::cout << "How long? \n";
     std::cin >> length;
 
-    std::cout << "Your password is: " << generate(length);
+    while (n != "y" && n != "n") {
+        std::cout << "Numbers? y/n \n";
+        std::cin >> n;
+
+        if (n == "y") {
+            num = true;
+        }
+        else if (n == "n") {
+            num = false;
+        }
+        else {
+            n = "z";
+        }
+    }
+
+    std::cout << "Your password is: " << generate(length, num);
 
     return 0;
 }
